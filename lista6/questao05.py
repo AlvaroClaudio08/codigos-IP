@@ -1,19 +1,31 @@
-def sistema_ordenacao(jogador, time, selecao="qualquer"):
-    if selecao != "qualquer":
-        
-        jogadores_selecao = {}
+def sistema_ordenacao(jogadores):
 
-        for jogador in time:
-            
-            if selecao == time[jogador][0]:
-                jogadores_selecao[jogador] = time[jogador]
+#Mais gols marcados.
+# Em caso de empate, mais assistências.
+# Em caso de novo empate, MENOS cartões vermelhos.
+# Se o empate persistir, MENOS cartões amarelos.
+# Ainda empatados? Mais passes certos.
+# Se o empate persistir, ordem alfabética do nome da Seleção.
+# Por fim, ordem alfabética do nome do Jogador.
 
-        lista_jogadores_selecao = list(jogadores_selecao.items())
+    lista_jogadores_selecao = list(jogadores.items())
 
-        for i in range(len(lista_jogadores_selecao)):
-            for j in range(len(lista_jogadores_selecao)-1):
+    #(Seleção, Gols, Assistências, Passes Certos, Cartões Amarelos, Cartões Vermelhos)
+    for i in range(len(lista_jogadores_selecao)):
+        for j in range(len(lista_jogadores_selecao)-1):
 
-                if lista_jogadores_selecao[0][j]
+            if (lista_jogadores_selecao[j][1][1] < lista_jogadores_selecao[j+1][1][1]
+                or lista_jogadores_selecao[j][1][1] == lista_jogadores_selecao[j+1][1][1] and lista_jogadores_selecao[j][1][2] < lista_jogadores_selecao[j+1][1][2]
+                or lista_jogadores_selecao[j][1][1] == lista_jogadores_selecao[j+1][1][1] and lista_jogadores_selecao[j][1][2] == lista_jogadores_selecao[j+1][1][2] and lista_jogadores_selecao[j][1][5] > lista_jogadores_selecao[j+1][1][5]
+                or lista_jogadores_selecao[j][1][1] == lista_jogadores_selecao[j+1][1][1] and lista_jogadores_selecao[j][1][2] == lista_jogadores_selecao[j+1][1][2] and lista_jogadores_selecao[j][1][5] == lista_jogadores_selecao[j+1][1][5] and lista_jogadores_selecao[j][1][4] > lista_jogadores_selecao[j+1][1][4]
+                or lista_jogadores_selecao[j][1][1] == lista_jogadores_selecao[j+1][1][1] and lista_jogadores_selecao[j][1][2] == lista_jogadores_selecao[j+1][1][2] and lista_jogadores_selecao[j][1][5] == lista_jogadores_selecao[j+1][1][5] and lista_jogadores_selecao[j][1][4] == lista_jogadores_selecao[j+1][1][4] and lista_jogadores_selecao[j][1][3] < lista_jogadores_selecao[j+1][1][3]
+                or lista_jogadores_selecao[j][1][1] == lista_jogadores_selecao[j+1][1][1] and lista_jogadores_selecao[j][1][2] == lista_jogadores_selecao[j+1][1][2] and lista_jogadores_selecao[j][1][5] == lista_jogadores_selecao[j+1][1][5] and lista_jogadores_selecao[j][1][4] == lista_jogadores_selecao[j+1][1][4] and lista_jogadores_selecao[j][1][3] == lista_jogadores_selecao[j+1][1][3] and lista_jogadores_selecao[j][1][0] > lista_jogadores_selecao[j+1][1][0]
+                or lista_jogadores_selecao[j][1][1] == lista_jogadores_selecao[j+1][1][1] and lista_jogadores_selecao[j][1][2] == lista_jogadores_selecao[j+1][1][2] and lista_jogadores_selecao[j][1][5] == lista_jogadores_selecao[j+1][1][5] and lista_jogadores_selecao[j][1][4] == lista_jogadores_selecao[j+1][1][4] and lista_jogadores_selecao[j][1][3] == lista_jogadores_selecao[j+1][1][3] and lista_jogadores_selecao[j][1][0] == lista_jogadores_selecao[j+1][1][0] and lista_jogadores_selecao[j][0] > lista_jogadores_selecao[j+1][0]
+            ):
+                
+                lista_jogadores_selecao[j], lista_jogadores_selecao[j+1] = lista_jogadores_selecao[j+1], lista_jogadores_selecao[j]
+
+    return lista_jogadores_selecao
 
 operacao = input()
 time = {}
@@ -98,15 +110,66 @@ while operacao != "*FIM":
 
             print(f"{jogador} ({selecao}): {g}G, {a}A, {p}P, {ca}CA, {cv}CV")
 
-    elif operacao[0] == "":
+    #Formato: *DESTAQUE_SELECAO selecao
+    elif operacao[0] == "*DESTAQUE_SELECAO":
 
+        jogadores_selecao = {}
+
+        for jogador in time:
+            
+            if operacao[1] == time[jogador][0]:
+                jogadores_selecao[jogador] = time[jogador]
+
+        if len(jogadores_selecao) == 0:
+            
+            print(f"Nenhum dado encontrado para a seleção {operacao[1]}")
+
+        else:
+             #(Seleção, Gols, Assistências, Passes Certos, Cartões Amarelos, Cartões Vermelhos)
+
+            jogadores_ordenados = sistema_ordenacao(jogadores_selecao)
+
+            dados = jogadores_ordenados[0]
+            jogador = dados[0]
+            g, a = dados[1][1], dados[1][2]
+
+            print(f"Destaque da {selecao}: {jogador} {g} gols, {a} assistências")
+
+    elif operacao == "*BOLA_DE_OURO":
+
+        if len(time) == 0:
+            
+            print("Nenhum jogador registrado no torneio")
         
-                    
+        else:
+            
+            jogadores_ordenados = sistema_ordenacao(time)
 
+            dados = jogadores_ordenados[0]
+            jogador = dados[0]
+            selecao = dados[1][0]
+            g = dados[1][1]
 
+            print(f"Bola de Ouro atual: {jogador} {selecao} com {g} gols")
 
+    elif operacao == "*FIM":
 
+        if len(time) == 0:
 
+            print("Nenhum jogador registrado para o ranking final.")
+
+        else:
+            #(Seleção, Gols, Assistências, Passes Certos, Cartões Amarelos, Cartões Vermelhos)
+
+            jogadores_ordenados = sistema_ordenacao(time)
+
+            for cada in jogadores_ordenados:
+
+                jogador = cada[0]
+                selecao = cada[1][0]
+                g, a, p, ca, cv = cada[1][1], cada[1][2], cada[1][3], cada[1][4], cada[1][5]
+
+                print(f"{jogador} ({selecao}) - G: {g}, A: {a}, P: {p}, CA: {ca}, CV: {cv}")
 
     operacao = input()
 
