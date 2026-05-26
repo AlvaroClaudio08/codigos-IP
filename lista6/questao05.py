@@ -1,5 +1,19 @@
-def 
+def sistema_ordenacao(jogador, time, selecao="qualquer"):
+    if selecao != "qualquer":
+        
+        jogadores_selecao = {}
 
+        for jogador in time:
+            
+            if selecao == time[jogador][0]:
+                jogadores_selecao[jogador] = time[jogador]
+
+        lista_jogadores_selecao = list(jogadores_selecao.items())
+
+        for i in range(len(lista_jogadores_selecao)):
+            for j in range(len(lista_jogadores_selecao)-1):
+
+                if lista_jogadores_selecao[0][j]
 
 operacao = input()
 time = {}
@@ -14,11 +28,11 @@ while operacao != "*FIM":
 
         dados_string = " ".join(operacao[2:])
         dados_string = dados_string.split()
-        
+
 
         dados = []
         for cada in dados_string:
-            
+
             if cada.isnumeric():
                 cada = int(cada)
             
