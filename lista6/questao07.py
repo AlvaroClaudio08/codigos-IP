@@ -14,6 +14,10 @@ else:
     while partida != "A coletiva vai começar":
 
         partida = partida.split(" ", 1)
-        dados = partida[1].split(" - ")
+        dados = partida[1]
+        dados = dados.split(" - ")
+        partida = input()
         print(dados)
+
+
 
