@@ -12,7 +12,31 @@ def partidas():
 
         dados = tuple([int(i) for i in dados])
 
-        if jogador == "Neymar" and dados[]
+        if jogador == "Neymar":
+            
+            if dados[3] == 0:
+
+                print("O homem jogou! A esperanca do hexa respira.")
+
+            else:
+
+                print("Neymar machucou... Mas deixa ele recuperar, na Copa ele decide!")
+
+        else:
+
+            if dados[3] != 0:
+
+                print(f"Ih, {jogador} foi pro estaleiro. Ancelotti ta preocupado.")
+
+            else:
+
+                if jogador in jogadores:
+
+                    print(f"Mais um jogo pra conta de {jogador}.")
+
+                else:
+
+                    print(f"Vamos ver o que Ancelotti achará de {jogador}.")
 
         if jogador not in jogadores:
             jogadores[jogador] = dados
@@ -103,5 +127,52 @@ else:
         print("Ue, a coletiva começou mas ninguém foi analisado? O professor vai convocar os gandulas?")
         jogadores = partidas()
 
+    print()
+
 jogadores_ordenados = convocacao(jogadores)
 
+print("--- CONVOCADOS PARA O HEXA ---")
+
+regulador = 0
+contador = 1
+neymar_on = False
+
+for player in jogadores_ordenados:
+
+    if n < vagas:
+
+        dados = jogadores_ordenados[player]
+        #(Total_Gols, Total_Assistencias, Total_Dribles, Total_Lesoes).
+
+        #Base: (Gols * 5) + (Assistências * 3) + (Dribles * 1) - (Lesões * 10)
+        if player == "Neymar":
+
+            neymar_on = True
+
+            score = 20 + dados[0]*5 + dados[1]*3 + dados[2] - dados[3]
+
+        else:
+
+            score = dados[0]*5 + dados[1]*3 + dados[2] - dados[3]*10
+
+        print(f"{n+1}. {player} - {score} pts (G: {dados[0]}, A: {dados[1]})")
+
+        n += 1
+
+if neymar_on:
+
+    print("Prepara o pagode e a caixa de som, o Ney ta on!")
+
+else:
+
+    print("Eita... Ancelotti bancou a tática e deixou o menino Ney de fora!")
+
+if n+1 < vagas:
+
+    if neymar_on:
+
+        print("A lista não encheu, mas com o camisa 10 lá dentro, Ancelotti já tá com a cabeça no Hexa.")
+
+    else: 
+        
+        print("Se liga, professor... ainda tem espaço pra o Ney!")
